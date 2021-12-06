@@ -10,16 +10,10 @@ import styles from 'components/App.module.scss';
 function App() {
 
   useEffect(() => {
-
-    /**
-     * Example call to Flask
-     * @see /src/utils/requests.js
-     * @see /app.py
-     */
     setTimeout(() => get(
       'example', // Route
-      (response) => alert(response), // Response callback
-      (error) => console.error(error) // Error callback
+      (response: any) => alert(response),
+      (error: any) => console.error(error)
     ), 3000);
   }, []);
 

@@ -3,6 +3,10 @@
   "description": "Speech recognition application for Thai",
   "dependencies": {
     "@reduxjs/toolkit": "^1.1.0",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.11",
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
     "axios": "^0.21.1",
     "electron-is-dev": "^1.2.0",
     "get-port": "^5.1.1",
@@ -10,7 +14,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "typescript": "^4.5.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
