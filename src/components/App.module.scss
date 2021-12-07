@@ -52,3 +52,11 @@
     color: white;
   }
 }
+
+.setting-container {
+  display: flex;
+  min-width: 95vw;
+  justify-content: space-between;
+  padding: 12px;
+  align-items: flex-end;
+}
