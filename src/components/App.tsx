@@ -21,9 +21,9 @@ function App() {
     <Fragment>
       <Titlebar />
 
-      <div className={ styles.app }>
-        <header className={ styles['app-header'] }>
-          <img src={ logo } className={ styles['app-logo'] } alt="logo" />
+      <div className={styles.app}>
+        <header className={styles['app-header']}>
+          <img src={logo} className={styles['app-logo']} alt="logo" />
           <Counter />
           <p>
             Edit
@@ -35,7 +35,7 @@ function App() {
           <span>
             <span>Learn </span>
             <a
-              className={ styles['app-link'] }
+              className={styles['app-link']}
               href="https://reactjs.org/"
               target="_blank"
               rel="noopener noreferrer"
@@ -44,7 +44,7 @@ function App() {
             </a>
             <span>, </span>
             <a
-              className={ styles['app-link'] }
+              className={styles['app-link']}
               href="https://redux.js.org/"
               target="_blank"
               rel="noopener noreferrer"
@@ -53,7 +53,7 @@ function App() {
             </a>
             <span>, </span>
             <a
-              className={ styles['app-link'] }
+              className={styles['app-link']}
               href="https://redux-toolkit.js.org/"
               target="_blank"
               rel="noopener noreferrer"
@@ -63,7 +63,7 @@ function App() {
             ,
             <span> and </span>
             <a
-              className={ styles['app-link'] }
+              className={styles['app-link']}
               href="https://react-redux.js.org/"
               target="_blank"
               rel="noopener noreferrer"

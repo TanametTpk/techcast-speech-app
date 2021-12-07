@@ -1,9 +1,13 @@
 import sys
 from flask import Flask, jsonify, request
+from flask_socketio import SocketIO
 from flask_cors import CORS
 
 app = Flask(__name__)
-app_config = {"host": "0.0.0.0", "port": sys.argv[1]}
+# app.config["host"] = "0.0.0.0"
+# app.config["port"] = sys.argv[1]
+app_config = {"host": "0.0.0.0", "port": int(sys.argv[1])}
+socketio = SocketIO(app)
 
 """
 ---------------------- DEVELOPER MODE CONFIG -----------------------
@@ -12,6 +16,7 @@ app_config = {"host": "0.0.0.0", "port": sys.argv[1]}
 if "app.py" in sys.argv[0]:
   # Update app config
   app_config["debug"] = True
+  # app.config["debug"] = True
 
   # CORS settings
   cors = CORS(
@@ -40,11 +45,14 @@ def example():
 # Quits Flask on Electron exit
 @app.route("/quit")
 def quit():
-  shutdown = request.environ.get("werkzeug.server.shutdown")
-  shutdown()
+  # shutdown = request.environ.get("werkzeug.server.shutdown")
+  # shutdown()
+  exit()
 
-  return
-
+@socketio.on('connect')
+def connect():
+  print("connected to websocket")
 
 if __name__ == "__main__":
-  app.run(**app_config)
+  # app.run(**app_config)
+  socketio.run(app, **app_config)
