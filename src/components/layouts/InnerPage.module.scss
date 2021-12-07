@@ -1,0 +1,21 @@
+
+.container {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1.5em;
+}
+
+.back-btn {
+    cursor: pointer;
+}
+
