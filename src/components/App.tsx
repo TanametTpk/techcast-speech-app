@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect } from 'react';
-import { get } from 'utils/requests';
+import { get, getServerAddress } from 'utils/requests';
 
 import { Counter } from 'components/counter/Counter';
 import Titlebar from 'components/titlebar/Titlebar';
 
 import logo from 'logo.svg';
 import styles from 'components/App.module.scss';
+import socketIOClient from 'socket.io-client';
 
 function App() {
 
@@ -16,6 +17,18 @@ function App() {
       (error: any) => console.error(error)
     ), 3000);
   }, []);
+
+  useEffect(() => {
+    console.log("test");
+    
+    const socket = socketIOClient(getServerAddress()+ "/macro");
+
+    socket.on("connect", () => {
+      console.log("connected");
+      
+    })
+    socket.on("update", console.log)
+  }, [])
 
   return (
     <Fragment>

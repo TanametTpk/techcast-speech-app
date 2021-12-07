@@ -47,3 +47,5 @@ export const post = (
     .then(callback)
     .catch((error) => (errorCallback ? errorCallback(error) : console.error(error)));
 };
+
+export const getServerAddress = () => `http://localhost:${port}`

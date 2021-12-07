@@ -10,6 +10,7 @@ import store from 'state/store';
 import Home from 'components/Home';
 import Macro from 'components/Macro';
 import SettingPage from 'components/Setting';
+import App from 'components/App';
 
 // TODO - import python code
 // TODO - bind logic to UI
@@ -19,7 +20,7 @@ ReactDOM.render(
     <Provider store={store}>
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<App />} />
           <Route path="/macros" element={<Macro />} />
           <Route path="/settings" element={<SettingPage />} />
         </Routes>
