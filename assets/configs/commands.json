@@ -1,0 +1,51 @@
+{
+	"commands": [
+		{
+			"words": [
+				"ขวา",
+				"right",
+				"r"
+			],
+			"toCommand": "press d"
+		},
+		{
+			"words": [
+				"ซ้าย",
+				"left",
+				"l"
+			],
+			"toCommand": "press a"
+		},
+		{
+			"words": [
+				"ลง",
+				"down",
+				"d"
+			],
+			"toCommand": "press s"
+		},
+		{
+			"words": [
+				"ขึ้น",
+				"up",
+				"u"
+			],
+			"toCommand": "press w"
+		},
+		{
+			"words": [
+				"ขวาค้าง",
+				"right hold",
+				"rh"
+			],
+			"toCommand": "press d hold"
+		}
+	],
+	"replaces": [],
+	"useOnlyDefined": true,
+	"useReplace": false,
+	"usePool": false,
+	"pool": {
+		"defaultRatio": 3
+	}
+}
