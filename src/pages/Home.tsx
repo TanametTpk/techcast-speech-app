@@ -74,7 +74,11 @@ const Home = () => {
               <span role="img" aria-label="books">
                 ⭐
               </span>
-              Start Live Chat
+              {
+                  canClickStartBtn() ? "Start Live Chat"
+                  :
+                  "พูดอะไรหน่อย เพื่อปิด model"
+              }
             </>
           ) : (
             <>Stop Live Chat</>

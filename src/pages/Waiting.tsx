@@ -9,6 +9,8 @@ const Waiting = () => {
     const history = useHistory()
 
     useEffect(() => {
+        if (socket.connected) history.push("/home")
+
         socket.on("system:ready", () => {
             history.push("/home")
         })
