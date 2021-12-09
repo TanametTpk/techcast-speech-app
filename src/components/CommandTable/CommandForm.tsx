@@ -4,6 +4,9 @@ import TagInput from './TagInput';
 import Modal from 'antd/lib/modal';
 import * as Keywords from '../../keywords';
 import { KeywordConfig } from '../../utils/loadConfig';
+import { useAtom } from 'jotai';
+import { socketAtom } from '../../state/socket';
+import { macroAtom } from '../../state/macroStote';
 
 const { Option } = Select;
 
@@ -55,6 +58,8 @@ const CommandForm: React.FC<Props> = ({
     init_selectedKeyword,
     isReplace,
 }) => {
+    const [socket,] = useAtom(socketAtom)
+    // const [macroStore, setMaroStore] = useAtom(macroAtom)
     const [ratio, setRatio] = useState<number>(0)
     const [selectedCommand, setSelected] = useState<string>(Keywords.mouseMoveKeywords[0])
 
@@ -71,13 +76,14 @@ const CommandForm: React.FC<Props> = ({
     ])
 
     useEffect(() => {
-        // let macros: string[] = ipcRenderer.sendSync('macro:get')
-        // let allCommand: string [] = [...avaliableCommands, ...macros]
-        let mapping: NonRepeatKeyword = {}
-        // allCommand.map((command: string) => {
-        //     mapping[command] = true
-        // })
-        setCommands(Object.keys(mapping))
+        socket.emit("macros:get", (macros: string[]) => {
+            let allCommand: string [] = [...avaliableCommands, ...macros]
+            let mapping: NonRepeatKeyword = {}
+            allCommand.map((command: string) => {
+                mapping[command] = true
+            })
+            setCommands(Object.keys(mapping))
+        })
     }, [])
 
     useEffect(() => {

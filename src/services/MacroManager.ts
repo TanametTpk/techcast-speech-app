@@ -2,6 +2,7 @@ import IMacroPlayer from './interfaces/IMacroPlayer';
 import IMacroRecorder from './interfaces/IMacroRecorder';
 import { Socket } from 'socket.io-client';
 import SocketManager from './SocketManager';
+import { MacroStatus, MacroStoreValue } from '../state/macroStote';
 
 export default class MacroManager implements IMacroRecorder, IMacroPlayer {
   private avaliableMacros: string[];
@@ -18,6 +19,22 @@ export default class MacroManager implements IMacroRecorder, IMacroPlayer {
     this.playingMacro = new Map();
     this.loadMacro();
     this.socket = SocketManager.getInstance().getSocket();
+
+    this.socket.on("macros:update", (macroState: MacroStoreValue) => {
+      this.avaliableMacros = macroState.avaliable_macros
+      this.isRecord = macroState.isRecord
+      this.isReady = macroState.isReady
+      this.playingMacro = this.parseToMap(macroState.playingMacroStatus)
+    })
+  }
+
+  private parseToMap(status: MacroStatus): Map<string, boolean> {
+    let keys = Object.keys(status)
+    let results = new Map<string, boolean>()
+    keys.map((key) => {
+      results.set(key, status[key])
+    })
+    return results
   }
 
   public static getInstance(): IMacroRecorder & IMacroPlayer {
@@ -26,21 +43,12 @@ export default class MacroManager implements IMacroRecorder, IMacroPlayer {
   }
 
   private async loadMacro() {
-    // const macros: string[] | undefined = await listCommands();
-    // if (!macros) {
-    //   this.avaliableMacros = [];
-    //   return;
-    // }
-    // this.avaliableMacros = macros;
-    // WebServerController.getInstance().sendMacros(this.avaliableMacros);
+    this.socket.emit("macros:getAll")
   }
 
   public play(marcoName: string) {
-    // this.playingMacro.set(marcoName, true);
-    // playMacro(marcoName).then(() => {
-    //   this.playingMacro.delete(marcoName);
-    //   WebServerController.getInstance().sendFinishPlaying();
-    // });
+    if (this.isAnyMacroPlaying()) return;
+    this.socket.emit("macros:play", {name: marcoName})
   }
 
   public isPlaying(macroName: string): boolean {
@@ -56,21 +64,16 @@ export default class MacroManager implements IMacroRecorder, IMacroPlayer {
   }
 
   public async record(marcoName: string) {
-    // if (this.isRecord || !this.isReady) return;
-    // WebServerController.getInstance().sendRecording();
-    // await recordMacro(marcoName);
-    // this.loadMacro();
-    // WebServerController.getInstance().stopRecorded();
+    if (this.isRecord) return;
+    this.socket.emit("macros:record", {name: marcoName})
   }
 
   public async update(oldName: string, newName: string) {
-    // await renameMacro(oldName, newName);
-    // this.loadMacro();
+    this.socket.emit("macros:update", {oldName, newName})
   }
 
   public async delete(macroName: string) {
-    // await removeMacro(macroName);
-    // this.loadMacro();
+    this.socket.emit("macros:remove", {name: macroName})
   }
 
   public setReady(isReady: boolean) {

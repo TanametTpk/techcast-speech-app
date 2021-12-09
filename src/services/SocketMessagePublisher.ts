@@ -22,7 +22,7 @@ export default class SocketMessagePublisher implements ILiveChatPublisher {
       };
       this.publish([chat]);
     });
-
+    
     this.client.emit(`${this.serviceName}:start`);
   };
 
@@ -30,6 +30,7 @@ export default class SocketMessagePublisher implements ILiveChatPublisher {
     if (!this.client) return;
     this.client.removeAllListeners(`${this.serviceName}:message`);
     this.client.emit(`${this.serviceName}:stop`);
+    this.subscribers = []
   };
 
   public register = (subscriber: ILiveChatSubscriber): void => {

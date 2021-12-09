@@ -75,13 +75,13 @@ const Home = () => {
                 ⭐
               </span>
               {
-                  canClickStartBtn() ? "Start Live Chat"
+                  canClickStartBtn() ? "Start"
                   :
                   "พูดอะไรหน่อย เพื่อปิด model"
               }
             </>
           ) : (
-            <>Stop Live Chat</>
+            <>Stop</>
           )}
         </button>
       </div>

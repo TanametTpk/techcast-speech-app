@@ -61,6 +61,9 @@ def running():
             wav_data = write_header(wav_data, 1, 2, 16_000)
             raw_audio, _ = sf.read(io.BytesIO(wav_data))
             transription = transcribe_byte(raw_audio)
-            socketio.emit("notification:message", transription)
+            if len(transription) < 1:
+                continue
 
+            socketio.emit("notification:message", transription)
+            socketio.emit("wav2vec:message", transription)
             wav_data = bytearray()

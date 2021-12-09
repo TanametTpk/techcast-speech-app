@@ -64,7 +64,6 @@ export default class LiveChatController implements ILiveChatSubscriber {
   private doAction = (command: string) => {
     for (let i = 0; i < this.actions.length; i++) {
       const action = this.actions[i];
-
       if (action.isMatch(command)) {
         action.do(command);
         break;

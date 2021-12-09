@@ -19,6 +19,8 @@ import IMacroPlayer from './services/interfaces/IMacroPlayer';
 import LiveChatReplaceAdapter from './services/LiveChatReplaceAdapter';
 import { Settings, writeConfig } from './utils/ConfigWriter';
 import SocketMessagePublisher from './services/SocketMessagePublisher';
+import MacroManager from './services/MacroManager';
+import MessageIncludeAdapter from './services/MessageIncludeAdapter';
 
 export default class LiveChatManager {
   private sourcePath: string;
@@ -119,6 +121,7 @@ export default class LiveChatManager {
   private createAdminControllers() {
     this.ioController = new RobotJSIOController();
     this.localController = new LocalIOController(this.ioController);
+    this.macroController = MacroManager.getInstance();
   }
 
   private createSubscribers() {
@@ -145,11 +148,11 @@ export default class LiveChatManager {
 
   private createAdapters() {
     // should we use builder pattern?
-    this.chatSubscriber = new LiveChatAdapter(
+    this.chatSubscriber = new MessageIncludeAdapter(
       this.chatSubscriber,
       this.commandConfig.commands
     );
-    this.webHookSubscriber = new LiveChatAdapter(
+    this.webHookSubscriber = new MessageIncludeAdapter(
       this.webHookSubscriber,
       this.commandConfig.commands
     );

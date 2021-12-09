@@ -1,38 +1,40 @@
 {
-  "youtube": {
-    "allow": false,
-    "useAPI": false,
-    "API_KEY": "API_KEY",
-    "CHANNEL_ID": "CHANNEL_ID",
-    "STREAM_ID": "STREAM_ID",
-    "INTERVAL": 1000
-  },
-  "discord": {
-    "allow": false,
-    "token": "token"
-  },
-  "twitch": {
-    "allow": false,
-    "channel": "name"
-  },
-  "facebook": {
-    "allow": false,
-    "access_token": "",
-    "video_id": "",
-    "comment_rate": "one_per_two_seconds"
-  },
-  "wav2vec": {
-    "allow": true,
-    "processor": "cpu"
-  },
-  "googlespeech": {
-    "allow": false
-  },
-  "timewraping": {
-    "allow": false
-  },
-  "webhooks": {
-    "allow": false,
-    "urls": ["http://localhost:5000/webhooks"]
-  }
+	"youtube": {
+		"allow": false,
+		"useAPI": false,
+		"API_KEY": "API_KEY",
+		"CHANNEL_ID": "CHANNEL_ID",
+		"STREAM_ID": "STREAM_ID",
+		"INTERVAL": 1000
+	},
+	"discord": {
+		"allow": false,
+		"token": "token"
+	},
+	"twitch": {
+		"allow": false,
+		"channel": "name"
+	},
+	"facebook": {
+		"allow": false,
+		"access_token": "",
+		"video_id": "",
+		"comment_rate": "one_per_two_seconds"
+	},
+	"wav2vec": {
+		"allow": true,
+		"processor": "cpu"
+	},
+	"googlespeech": {
+		"allow": false
+	},
+	"timewraping": {
+		"allow": false
+	},
+	"webhooks": {
+		"allow": false,
+		"urls": [
+			"http://localhost:5000/webhooks"
+		]
+	}
 }
