@@ -22,6 +22,8 @@ export interface TeachableConfig extends SourceConfig {
     url: string
     probabilityThreshold: number
     overlapFactor: number
+    actionRatio: number
+    ignoreBGclass: boolean
 }
 
 export interface KeywordConfig {

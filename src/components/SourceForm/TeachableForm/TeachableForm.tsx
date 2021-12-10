@@ -1,3 +1,4 @@
+import Checkbox, { CheckboxChangeEvent } from 'antd/lib/checkbox/Checkbox'
 import React from 'react'
 import AvaliableForm from '../AvaliableForm'
 import { Props } from '../SourceForm'
@@ -52,6 +53,30 @@ const TeachableForm: React.FC<Props> = (props: Props) => {
                 max={1}
                 value={props.sources.teachable.overlapFactor || 0.5}
             />
+
+            <TextFieldSource
+                title="Action Ratio"
+                placeholder="ถ้า prediction ถึง ratio ถึงจะทำงาน"
+                numberic
+                onChange={(interval: number) => {
+                    let sources = props.sources
+                    sources.teachable.actionRatio = interval
+                    props.setSources(sources)
+                }}
+                min={0.1}
+                max={1}
+                value={props.sources.teachable.actionRatio || 0.8}
+            />
+            <Checkbox
+                onChange={(e: CheckboxChangeEvent) => {
+                    let sources = props.sources
+                    sources.teachable.ignoreBGclass = e.target.checked
+                    props.setSources(sources)
+                }}
+                checked={props.sources.teachable.ignoreBGclass}
+            >
+                ไม่เอา label เสียง background
+            </Checkbox>
             <p>
                 ใช้ class ใน teachable machine มา Match กับ words ในหน้า commands (ต่อเน็ตด้วย!!)
             </p>

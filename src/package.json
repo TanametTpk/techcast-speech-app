@@ -1,8 +1,8 @@
 {
-  "name": "live-chat-controller-desktop",
-  "productName": "live-chat-controller-desktop",
+  "name": "speech-app",
+  "productName": "speech-app",
   "version": "1.1.0",
-  "description": "Live Chat Controller application is desktop application for get live chat to control your pc",
+  "description": "Speech App application is desktop application for get live chat to control your pc",
   "main": "./main.prod.js",
   "author": {
     "name": "tanamettpk",

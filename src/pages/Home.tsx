@@ -114,7 +114,7 @@ const Home = () => {
     className: string,
     probability: number | Float32Array
   ) => {
-    if (settings && probability > settings.sources.teachable.overlapFactor) {
+    if (settings && probability > settings.sources.teachable.actionRatio) {
       ipcRenderer.send('teachable:message', { message: className });
       notify(`Teachable Machine (${probability})`, className);
     }

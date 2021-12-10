@@ -11,7 +11,9 @@
         "allow": false,
         "url": "",
         "probabilityThreshold": 0.75,
-        "overlapFactor": 0.50
+        "overlapFactor": 0.50,
+        "actionRatio": 0.8,
+		"ignoreBGclass": true
     },
     "webhooks": {
         "allow": false,

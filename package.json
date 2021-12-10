@@ -1,7 +1,7 @@
 {
-  "name": "live-chat-controller-desktop",
-  "productName": "LiveChatControllerDesktop",
-  "description": "Live Chat Controller application is desktop application for get live chat to control your pc",
+  "name": "speech-app",
+  "productName": "ThaiSpeechApp",
+  "description": "Speech App application is desktop application for get live chat to control your pc",
   "scripts": {
     "build": "concurrently \"yarn build:main\" \"yarn build:renderer\"",
     "build:main": "cross-env NODE_ENV=production webpack --config ./.erb/configs/webpack.config.main.prod.babel.js",
@@ -30,8 +30,8 @@
     ]
   },
   "build": {
-    "productName": "LiveChatControllerDesktop",
-    "appId": "org.erb.LiveChatControllerDesktop",
+    "productName": "ThaiSpeechApp",
+    "appId": "org.erb.ThaiSpeechApp",
     "files": [
       "dist/",
       "node_modules/",
@@ -86,13 +86,13 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "live-chat-controller-desktop",
-      "repo": "live-chat-controller-desktop"
+      "owner": "tanamettpk",
+      "repo": "speech-app"
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tanamettpk/live-chat-controller-desktop.git"
+    "url": "git+https://github.com/tanamettpk/speech-app.git"
   },
   "author": {
     "name": "tanamettpk",
@@ -100,7 +100,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tanamettpk/live-chat-controller-desktop/issues"
+    "url": "https://github.com/tanamettpk/speech-app/issues"
   },
   "keywords": [
     "electron",
@@ -113,7 +113,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/tanamettpk/live-chat-controller-desktop#readme",
+  "homepage": "https://github.com/tanamettpk/speech-app#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {

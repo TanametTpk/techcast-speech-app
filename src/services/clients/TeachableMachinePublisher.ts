@@ -15,11 +15,13 @@ export default class TeachableMachinePublisher {
   private url: string;
   private overlapFactor: number;
   private probabilityThreshold: number;
+  private ignoreBGclass: boolean;
 
   public constructor(config: TeachableConfig) {
     this.url = config.url;
     this.overlapFactor = config.overlapFactor;
     this.probabilityThreshold = config.probabilityThreshold;
+    this.ignoreBGclass = config.ignoreBGclass;
   }
 
   public start = async (
@@ -27,10 +29,11 @@ export default class TeachableMachinePublisher {
   ): Promise<void> => {
     const recognizer = await this.createModel();
     const classLabels = recognizer.wordLabels();
+    let startIndex = this.ignoreBGclass ? 1 : 0;
 
     recognizer.listen(
       async (result: SpeechCommandRecognizerResult): Promise<void> => {
-        for (let i = 1; i < classLabels.length; i++) {
+        for (let i = startIndex; i < classLabels.length; i++) {
           callback(classLabels[i], result.scores[i]);
         }
       },

@@ -1,5 +1,5 @@
 # Introduction
-Live chat controller is code for control your pc(window only) with live chat on youtube/discord/twitch
+Speech App is code for control your pc(window only) with live chat on youtube/discord/twitch
 
 # Features
 - get chat from youtube/discord/twitch/facebook live chat and control pc
@@ -8,7 +8,7 @@ Live chat controller is code for control your pc(window only) with live chat on 
 - local website UI for easier interaction and monitor (next release)
 
 # บทนำ
-Live chat controller คือ โปรแกรมควบคุมคอม โดยดึงคำสั่งจาก live chat บน youtube/discord/twitch
+Speech App คือ โปรแกรมควบคุมคอม โดยดึงคำสั่งจาก live chat บน youtube/discord/twitch
 
 # สิ่งที่ทำได้
 - ดึงข้อมูลจาก youtube/discord/twitch/facebook chat มาทำงาน
