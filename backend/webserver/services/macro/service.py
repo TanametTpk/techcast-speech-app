@@ -186,6 +186,7 @@ def hookEndPlaying(event):
     key_vkCode = event.vkCode
     if event.action == winput.WM_KEYDOWN:
         if key_vkCode == stop_recording_key:
+            print("stop")
             STOP_PLAYING = True
             winput.unhook_keyboard()
             winput.stop()

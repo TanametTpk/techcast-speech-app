@@ -33,7 +33,7 @@ def quit():
   # https://github.com/miguelgrinberg/Flask-SocketIO/issues/199
   shutdown = request.environ.get("werkzeug.server.shutdown")
   shutdown()
-  socketio.close()
+  socketio.stop()
   exit()
   # --- all solution below is not working (as single solution) ---
   # shutdown = request.environ.get("werkzeug.server.shutdown")

@@ -28,6 +28,12 @@ const Wav2vecForm: React.FC<Props> = (props: Props) => {
                     'cuda'
                 ]}
             />
+            <p>
+                Model นี้ใช้ memory ขนาด 4GB ถ้าเป็น cpu ใช้ RAM มากกว่า 8GB = ดี
+            </p>
+            <p>
+                ส่วย cuda จะใช้ GPU ที่คำนวณได้เร็วกว่า แต่จะไปใช้ VRAM แทน
+            </p>
         </AvaliableForm>
     )
 }

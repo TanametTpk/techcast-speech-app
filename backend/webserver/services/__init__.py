@@ -4,6 +4,7 @@ from flask import Flask
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from .VAD import VADAudio
+from engineio.async_drivers import threading
 
 app = Flask(__name__)
 app_config = {"host": "0.0.0.0", "port": int(sys.argv[1])}

@@ -158,7 +158,7 @@ app
       });
     } else {
       let runFlask: any = {
-        win32: 'start ' + getAssetPath('./scripts/app.exe'),
+        win32: 'start ' + getAssetPath('./scripts/dist/app/app.exe'),
       };
 
       if (process.platform in runFlask) {

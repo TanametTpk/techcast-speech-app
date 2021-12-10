@@ -1,4 +1,20 @@
 # -*- mode: python ; coding: utf-8 -*-
+from PyInstaller.utils.hooks import collect_data_files
+from PyInstaller.utils.hooks import copy_metadata
+
+datas = [('E:\\anaconda\\envs\\speech-app\\Lib\\site-packages\\librosa\\util\\example_data', 'librosa\\util\\example_data'), ('E:\\anaconda\\envs\\speech-app\\Lib\\site-packages\\pythainlp\\corpus', 'pythainlp\\corpus'), ('D:\\projects\\techcast-speech\\backend\\webserver\\services\\macro', 'services\\macro')]
+datas += collect_data_files('torch')
+datas += copy_metadata('torch')
+datas += copy_metadata('tqdm')
+datas += copy_metadata('regex')
+datas += copy_metadata('sacremoses')
+datas += copy_metadata('requests')
+datas += copy_metadata('packaging')
+datas += copy_metadata('filelock')
+datas += copy_metadata('numpy')
+datas += copy_metadata('tokenizers')
+datas += copy_metadata('importlib_metadata')
+datas += copy_metadata('dataclasses')
 
 
 block_cipher = None
@@ -7,8 +23,8 @@ block_cipher = None
 a = Analysis(['app.py'],
              pathex=[],
              binaries=[],
-             datas=[],
-             hiddenimports=[],
+             datas=datas,
+             hiddenimports=['engineio.async_gevent', 'engineio.async_threading', 'engineio.async_eventlet'],
              hookspath=[],
              hooksconfig={},
              runtime_hooks=[],
