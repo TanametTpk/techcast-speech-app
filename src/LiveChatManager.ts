@@ -21,6 +21,7 @@ import { Settings, writeConfig } from './utils/ConfigWriter';
 import SocketMessagePublisher from './services/SocketMessagePublisher';
 import MacroManager from './services/MacroManager';
 import MessageIncludeAdapter from './services/MessageIncludeAdapter';
+import IPCPublisher from './services/IPCPublisher';
 
 export default class LiveChatManager {
   private sourcePath: string;
@@ -44,7 +45,7 @@ export default class LiveChatManager {
   private ioPublisher!: ICommandPublisher;
   private wav2vecPublisher!: ILiveChatPublisher;
   private googleSpeechPublisher!: ILiveChatPublisher;
-  private timewrapingPublisher!: ILiveChatPublisher;
+  private teachablePublisher!: ILiveChatPublisher;
 
   public constructor(
     sourceConfigPath: string,
@@ -69,13 +70,13 @@ export default class LiveChatManager {
     let allowList: boolean[] = [
       this.source.wav2vec.allow,
       this.source.googlespeech.allow,
-      this.source.timewraping.allow,
+      this.source.teachable.allow,
     ];
 
     let publishers: ILiveChatPublisher[] = [
       this.wav2vecPublisher,
       this.googleSpeechPublisher,
-      this.timewrapingPublisher,
+      this.teachablePublisher,
     ];
 
     for (let i = 0; i < publishers.length; i++) {
@@ -138,7 +139,7 @@ export default class LiveChatManager {
 
     this.wav2vecPublisher = new SocketMessagePublisher("wav2vec")
     this.googleSpeechPublisher = new SocketMessagePublisher("googlespeech")
-    this.timewrapingPublisher = new SocketMessagePublisher("timewraping")
+    this.teachablePublisher = new IPCPublisher("teachable")
   }
 
   private startAdminController() {
@@ -175,13 +176,13 @@ export default class LiveChatManager {
     let allowList: boolean[] = [
       this.source.wav2vec.allow,
       this.source.googlespeech.allow,
-      this.source.timewraping.allow,
+      this.source.teachable.allow,
     ];
 
     let publishers: ILiveChatPublisher[] = [
       this.wav2vecPublisher,
       this.googleSpeechPublisher,
-      this.timewrapingPublisher,
+      this.teachablePublisher,
     ];
 
     this.ioPublisher.stop();

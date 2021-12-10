@@ -2,7 +2,8 @@
 	"commands": [
 		{
 			"words": [
-				"วงกลม"
+				"วงกลม",
+				"clap"
 			],
 			"toCommand": "circleOfDead",
 			"ratio": 0

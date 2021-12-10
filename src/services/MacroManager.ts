@@ -43,7 +43,7 @@ export default class MacroManager implements IMacroRecorder, IMacroPlayer {
   }
 
   private async loadMacro() {
-    if (!this.socket.connected) return;
+    if (!this.socket) return;
     this.socket.emit("macros:getAll")
   }
 

@@ -5,6 +5,9 @@ export interface TextFieldSourceProps {
     title: string
     placeholder: string
     numberic?: boolean
+    min?: number
+    max?: number
+    defaultNummber?: number
     onChange?: (event: any) => void
     value: any
 }
@@ -14,7 +17,10 @@ const TextFieldSource: React.FC<TextFieldSourceProps> = ({
     placeholder,
     numberic,
     onChange,
-    value
+    value,
+    min,
+    max,
+    defaultNummber
 }) => {
 
     return (
@@ -24,8 +30,9 @@ const TextFieldSource: React.FC<TextFieldSourceProps> = ({
                 {
                     numberic ? 
                       <InputNumber
-                        min={100}
-                        defaultValue={1000}
+                        min={min || 100}
+                        max={max || undefined}
+                        defaultValue={defaultNummber || 1000}
                         onChange={onChange}
                         value={value}
                     />

@@ -14,6 +14,16 @@ export interface Wav2vecConfig extends SourceConfig {
     processor: "cpu" | "gpu"
 }
 
+export interface GoogleSpeechConfig extends SourceConfig {
+    language: 'th-TH' | 'en-EN'
+}
+
+export interface TeachableConfig extends SourceConfig {
+    url: string
+    probabilityThreshold: number
+    overlapFactor: number
+}
+
 export interface KeywordConfig {
     words: string[]
     toCommand: string
@@ -27,8 +37,8 @@ export interface WebHookConfig {
 
 export interface Configs {
     wav2vec: Wav2vecConfig
-    googlespeech: SourceConfig
-    timewraping: SourceConfig
+    googlespeech: GoogleSpeechConfig
+    teachable: TeachableConfig
     webhooks: WebHookConfig
 }
 

@@ -5,20 +5,25 @@ import { notification } from 'antd';
 import Checkbox from 'antd/lib/checkbox/Checkbox';
 import { useAtom } from 'jotai';
 import { socketAtom } from '../state/socket';
+import TeachableMachinePublisher from '../services/clients/TeachableMachinePublisher';
+import { Settings } from '../utils/ConfigWriter';
 
 const Home = () => {
   const [socket] = useAtom(socketAtom);
   const [isStart, setStart] = useState<boolean>(false);
   const [canStart, setCanStart] = useState<boolean>(true);
   const [isShowNotify, setNotify] = useState<boolean>(false);
+  const [recognizer, setRecognizer] = useState<
+    TeachableMachinePublisher | undefined
+  >(undefined);
   const history = useHistory();
+  const [settings, setSettings] = useState<Settings>();
 
   useEffect(() => {
+    getSetting();
+
     socket.on('notification:message', (message: string) => {
-      notification.open({
-        message: `Transcriptions`,
-        description: message,
-      });
+      notify(`Transcriptions`, message);
     });
 
     socket.on('inference:stopped', () => {
@@ -30,15 +35,29 @@ const Home = () => {
     };
   }, [isShowNotify]);
 
+  const getSetting = () => {
+    let settings = ipcRenderer.sendSync('settings:get');
+    setSettings(settings);
+  };
+
   const toggleStart = () => {
     if (isStart) {
       ipcRenderer.send('livechat:stop');
+      shouldTeachable(stopTeachable)
     } else {
       ipcRenderer.send('livechat:start');
+      shouldTeachable(startTeachable);
       setCanStart(false);
     }
     setStart(!isStart);
   };
+
+  const notify = (title: string, description: string) => {
+    if (isShowNotify) notification.open({
+      message: title,
+      description: description,
+    });
+  }
 
   const goto = (path: string) => {
     if (!isStart) history.push(path);
@@ -50,6 +69,35 @@ const Home = () => {
     }
 
     return true;
+  };
+
+  const shouldTeachable = (callback: Function) => {
+    if (settings && settings.sources.teachable.allow) callback();
+  }
+
+  const startTeachable = () => {
+    if (!settings) return;
+    let recognizer = new TeachableMachinePublisher(
+      settings.sources.teachable,
+    );
+    setRecognizer(recognizer)
+    recognizer.start(handleTeachableMachine);
+  };
+
+  const stopTeachable = () => {
+    if (recognizer) recognizer.stop();
+    setRecognizer(undefined);
+    setCanStart(true);
+  };
+
+  const handleTeachableMachine = (
+    className: string,
+    probability: number | Float32Array
+  ) => {
+    if (settings && probability > settings.sources.teachable.overlapFactor) {
+      ipcRenderer.send('teachable:message', { message: className });
+      notify(`Teachable Machine (${probability})`, className);
+    }
   };
 
   return (
@@ -74,11 +122,7 @@ const Home = () => {
               <span role="img" aria-label="books">
                 ⭐
               </span>
-              {
-                  canClickStartBtn() ? "Start"
-                  :
-                  "พูดอะไรหน่อย เพื่อปิด model"
-              }
+              {canClickStartBtn() ? 'Start' : 'พูดอะไรหน่อย เพื่อปิด model'}
             </>
           ) : (
             <>Stop</>
@@ -88,8 +132,9 @@ const Home = () => {
       <div>
         <button
           type="button"
-          className={isStart ? 'disableBtn' : 'mainBtn'}
+          className={isStart || !canClickStartBtn() ? 'disableBtn' : 'mainBtn'}
           onClick={() => goto('/macros')}
+          disabled={isStart || !canClickStartBtn()}
         >
           <span role="img" aria-label="books">
             ⌨️
@@ -98,7 +143,8 @@ const Home = () => {
         </button>
         <button
           type="button"
-          className={isStart ? 'disableBtn' : 'mainBtn'}
+          className={isStart || !canClickStartBtn() ? 'disableBtn' : 'mainBtn'}
+          disabled={isStart || !canClickStartBtn()}
           onClick={() => goto('/settings')}
         >
           <span role="img" aria-label="books">

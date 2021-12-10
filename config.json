@@ -26,10 +26,14 @@
         "processor": "cpu"
     },
     "googlespeech": {
-        "allow": false
+        "allow": false,
+        "language": "th-TH"
     },
-    "timewraping": {
-        "allow": false
+    "teachable": {
+        "allow": false,
+        "url": "",
+        "probabilityThreshold": 0.75,
+        "overlapFactor": 0.50
     },
     "webhooks": {
         "allow": false,
