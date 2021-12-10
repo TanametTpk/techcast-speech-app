@@ -16,9 +16,6 @@ export interface Props {
 
 const SourcesForm: React.FC<Props> = (props: Props) => {
     let Sources: React.FC<Props>[] = [
-        YoutubeForm,
-        TwitchForm,
-        DiscordForm,
         Wav2vecForm,
         GoogleSpeechForm,
         TeachableForm,

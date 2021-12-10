@@ -55,6 +55,9 @@ const TeachableForm: React.FC<Props> = (props: Props) => {
             <p>
                 ใช้ class ใน teachable machine มา Match กับ words ในหน้า commands (ต่อเน็ตด้วย!!)
             </p>
+            <p>
+                ปล. ไม่แนะนำให้ใช้คู่กับอันอื่นๆ เพราะ มันทำให้เกิด bug ได้ เช่น ทำให้ทำงานซ้ำหลายครั้ง (เปิดปิดใหม่ก็หายแหล่ะ)
+            </p>
         </AvaliableForm>
     )
 }

@@ -48,9 +48,9 @@ const Home = () => {
   const toggleStart = () => {
     if (isStart) {
       ipcRenderer.send('livechat:stop');
-      shouldTeachable(stopTeachable)
+      shouldTeachable(stopTeachable);
     } else {
-      setWaitInference(true)
+      setWaitInference(true);
       ipcRenderer.send('livechat:start');
       shouldTeachable(startTeachable);
       setCanStart(false);
@@ -59,11 +59,12 @@ const Home = () => {
   };
 
   const notify = (title: string, description: string) => {
-    if (isShowNotify) notification.open({
-      message: title,
-      description: description,
-    });
-  }
+    if (isShowNotify)
+      notification.open({
+        message: title,
+        description: description,
+      });
+  };
 
   const goto = (path: string) => {
     if (!isStart) history.push(path);
@@ -81,15 +82,17 @@ const Home = () => {
 
   const shouldTeachable = (callback: Function) => {
     if (settings && settings.sources.teachable.allow) callback();
-    setWaitInference(false)
-  }
+    if (
+      settings &&
+      !(settings.sources.wav2vec.allow || settings.sources.googlespeech.allow)
+    )
+      setWaitInference(false);
+  };
 
   const startTeachable = () => {
     if (!settings) return;
-    let recognizer = new TeachableMachinePublisher(
-      settings.sources.teachable,
-    );
-    setRecognizer(recognizer)
+    let recognizer = new TeachableMachinePublisher(settings.sources.teachable);
+    setRecognizer(recognizer);
     recognizer.start(handleTeachableMachine);
   };
 
