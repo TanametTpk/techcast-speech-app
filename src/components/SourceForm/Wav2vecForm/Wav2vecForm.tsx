@@ -25,7 +25,7 @@ const Wav2vecForm: React.FC<Props> = (props: Props) => {
                 value={props.sources.wav2vec.processor}
                 choices={[
                     'cpu',
-                    'gpu'
+                    'cuda'
                 ]}
             />
         </AvaliableForm>

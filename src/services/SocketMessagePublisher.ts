@@ -36,6 +36,7 @@ export default class SocketMessagePublisher implements ILiveChatPublisher {
   public stop = (): void => {
     if (!this.client) return;
     this.client.removeAllListeners(`${this.serviceName}:message`);
+    this.client.removeAllListeners(`${this.serviceName}:ready`);
     this.client.emit(`${this.serviceName}:stop`);
 
     this.subscribers = [];

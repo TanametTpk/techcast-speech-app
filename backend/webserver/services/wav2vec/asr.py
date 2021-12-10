@@ -15,22 +15,25 @@ fileLocation = pathlib.Path(__file__).parent.resolve()
 
 # DEVICE = "cuda"
 DEVICE = "cpu"
+IS_LOADED = False
 
 def loadModel():
-    global processor, model, raw_vocab, vocab_list, vocab_dict, sort_vocab, vocab, language_model, decoder
-    processor = Wav2Vec2Processor.from_pretrained("airesearch/wav2vec2-large-xlsr-53-th")
-    model = Wav2Vec2ForCTC.from_pretrained("airesearch/wav2vec2-large-xlsr-53-th")
+    global processor, model, raw_vocab, vocab_list, vocab_dict, sort_vocab, vocab, language_model, decoder, IS_LOADED
+    if not IS_LOADED:
+        processor = Wav2Vec2Processor.from_pretrained("airesearch/wav2vec2-large-xlsr-53-th")
+        model = Wav2Vec2ForCTC.from_pretrained("airesearch/wav2vec2-large-xlsr-53-th")
+
+        raw_vocab = processor.tokenizer.get_vocab()
+        vocab_list = list(raw_vocab)
+        vocab_dict = processor.tokenizer.get_vocab()
+        sort_vocab = sorted((value, key) for (key,value) in vocab_dict.items())
+        vocab = [x[1].replace("|", " ") if x[1] not in processor.tokenizer.all_special_tokens else "" for x in sort_vocab]
+
+        language_model = kenlm.Model(os.path.join(fileLocation,'./lm/th_word_lm_4ngram.binary'))
+        decoder = build_ctcdecoder(vocab[:-2], language_model, alpha=0.5, beta=2.0, ctc_token_idx=69)
+        IS_LOADED = True
 
     model.to(DEVICE)
-
-    raw_vocab = processor.tokenizer.get_vocab()
-    vocab_list = list(raw_vocab)
-    vocab_dict = processor.tokenizer.get_vocab()
-    sort_vocab = sorted((value, key) for (key,value) in vocab_dict.items())
-    vocab = [x[1].replace("|", " ") if x[1] not in processor.tokenizer.all_special_tokens else "" for x in sort_vocab]
-
-    language_model = kenlm.Model(os.path.join(fileLocation,'./lm/th_word_lm_4ngram.binary'))
-    decoder = build_ctcdecoder(vocab[:-2], language_model, alpha=0.5, beta=2.0, ctc_token_idx=69)
 
 def switchDevice(device):
     global DEVICE

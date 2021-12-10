@@ -7,6 +7,7 @@ import { useAtom } from 'jotai';
 import { socketAtom } from '../state/socket';
 import TeachableMachinePublisher from '../services/clients/TeachableMachinePublisher';
 import { Settings } from '../utils/ConfigWriter';
+import Chat from '../models/chat';
 
 const Home = () => {
   const [socket] = useAtom(socketAtom);
@@ -23,8 +24,8 @@ const Home = () => {
   useEffect(() => {
     getSetting();
 
-    socket.on('notification:message', (message: string) => {
-      notify(`Transcriptions`, message);
+    socket.on('notification:message', (chat: Chat) => {
+      notify(`Transcriptions from ${chat.source || "unknow"}`, chat.message);
     });
 
     socket.on('inference:stopped', () => {
@@ -44,6 +45,13 @@ const Home = () => {
     let settings = ipcRenderer.sendSync('settings:get');
     setSettings(settings);
   };
+
+  const isNotHaveSource = () => {
+    if (!settings) return true;
+    if (settings.sources.googlespeech.allow || settings.sources.wav2vec.allow || settings.sources.teachable.allow) return false
+
+    return true
+  }
 
   const toggleStart = () => {
     if (isStart) {
@@ -126,8 +134,8 @@ const Home = () => {
         <button
           type="button"
           onClick={toggleStart}
-          className={canClickStartBtn() ? 'mainBtn' : 'disableBtn'}
-          disabled={!canClickStartBtn() || waitInference}
+          className={canClickStartBtn() && !isNotHaveSource() ? 'mainBtn' : 'disableBtn'}
+          disabled={!canClickStartBtn() || waitInference || isNotHaveSource()}
         >
           {!isStart ? (
             <>

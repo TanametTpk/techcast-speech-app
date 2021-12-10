@@ -52,7 +52,6 @@ def prepare(config):
     socketio.emit("inference:prepare")
     global LANGUAGE
     if "googlespeech" in config and "language" in config["googlespeech"]:
-        print(config)
         LANGUAGE = config["googlespeech"]["language"]
     socketio.emit("googlespeech:ready")
     socketio.emit("inference:ready")
@@ -92,6 +91,6 @@ def running():
             if len(transription) < 1:
                 continue
 
-            socketio.emit("notification:message", transription)
+            socketio.emit("notification:message", {"message": transription, "source": "googlespeech"})
             socketio.emit("googlespeech:message", transription)
             wav_data = bytearray()

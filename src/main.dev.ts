@@ -17,10 +17,9 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import LiveChatManager from './LiveChatManager';
 import { IpcMainEvent } from 'electron/main';
-import { ChildProcess, spawn } from 'child_process';
+import { spawn } from 'child_process';
 import PortAllocator from './utils/portAllocator';
 import SocketManager from './services/SocketManager';
-import axios from 'axios';
 
 export default class AppUpdater {
   constructor() {

@@ -16,7 +16,6 @@ const Macro = () => {
 
     useEffect(() => {
         socket.on("macros:update", (macroInfo: MacroStoreValue) => {
-            console.log(macroInfo);
             setMacroInfo(macroInfo)
         })
 

@@ -39,14 +39,16 @@ def stopRunning():
 def prepare(config):
     socketio.emit("wav2vec:prepare")
     socketio.emit("inference:prepare")
-    if "wav2vec" in config and "device" in config["wav2vec"]:
-        switchDevice(config["wav2vec"]["device"])
+    if "wav2vec" in config and "processor" in config["wav2vec"]:
+        print(config["wav2vec"]["processor"])
+        switchDevice(config["wav2vec"]["processor"])
     loadModel()
     socketio.emit("wav2vec:ready")
     socketio.emit("inference:ready")
 
 @socketio.on('wav2vec:start')
 def running():
+    print("wav2vec:start")
     global SHOULD_STOP
     SHOULD_STOP = False
     # Start audio with VAD
@@ -77,6 +79,6 @@ def running():
             if len(transription) < 1:
                 continue
 
-            socketio.emit("notification:message", transription)
+            socketio.emit("notification:message", {"message": transription, "source": "wav2vec"})
             socketio.emit("wav2vec:message", transription)
             wav_data = bytearray()

@@ -4,8 +4,8 @@ import { getServerAddress } from '../utils/requests';
 
 const socket = socketIOClient(getServerAddress());
 
-socket.on("connect", () => {
-    console.log("connected");
-})
+// socket.on("connect", () => {
+//     console.log("connected");
+// })
 
 export const socketAtom = atom(socket)
