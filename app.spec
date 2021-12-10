@@ -2,7 +2,7 @@
 from PyInstaller.utils.hooks import collect_data_files
 from PyInstaller.utils.hooks import copy_metadata
 
-datas = [('E:\\anaconda\\envs\\speech-app\\Lib\\site-packages\\librosa\\util\\example_data', 'librosa\\util\\example_data'), ('E:\\anaconda\\envs\\speech-app\\Lib\\site-packages\\pythainlp\\corpus', 'pythainlp\\corpus'), ('D:\\projects\\techcast-speech\\backend\\webserver\\services\\macro', 'services\\macro')]
+datas = [('E:\\anaconda\\envs\\speech-app\\Lib\\site-packages\\librosa\\util\\example_data', 'librosa\\util\\example_data'), ('E:\\anaconda\\envs\\speech-app\\Lib\\site-packages\\pythainlp\\corpus', 'pythainlp\\corpus'), ('D:\\projects\\techcast-speech\\backend\\webserver\\services\\macro', 'services\\macro'), ('D:\\projects\\techcast-speech\\backend\\webserver\\services\\wav2vec\\lm', 'services\\wav2vec\\lm')]
 datas += collect_data_files('torch')
 datas += copy_metadata('torch')
 datas += copy_metadata('tqdm')
@@ -20,7 +20,7 @@ datas += copy_metadata('dataclasses')
 block_cipher = None
 
 
-a = Analysis(['app.py'],
+a = Analysis(['backend\\webserver\\app.py'],
              pathex=[],
              binaries=[],
              datas=datas,
