@@ -1,15 +1,25 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from .asr import transcribe_byte
-import soundfile as sf
-import io
 import struct
 from .. import VADAudio, socketio
+import speech_recognition as sr
+import os
+from datetime import datetime
 
 DEFAULT_SAMPLE_RATE = 16000
 SHOULD_STOP = False
 logging.basicConfig(level=20)
+
+def transcribe(file, language="th-TH"):
+    try:
+        r = sr.Recognizer()
+        with sr.AudioFile(file) as source:
+            audio = r.record(source)
+            transcribe = r.recognize_google(audio, language=language)
+            return transcribe
+    except:
+        return ""
 
 def write_header(_bytes, _nchannels, _sampwidth, _framerate):
     WAVE_FORMAT_PCM = 0x0001
@@ -30,12 +40,12 @@ def write_header(_bytes, _nchannels, _sampwidth, _framerate):
 
     return bytes_to_add + _bytes
 
-@socketio.on('wav2vec:stop')
+@socketio.on('googlespeech:stop')
 def stopRunning():
     global SHOULD_STOP
     SHOULD_STOP = True
 
-@socketio.on('wav2vec:start')
+@socketio.on('googlespeech:start')
 def running():
     global SHOULD_STOP
     SHOULD_STOP = False
@@ -62,11 +72,14 @@ def running():
         else:
             logging.debug("end utterence")
             wav_data = write_header(wav_data, 1, 2, 16_000)
-            raw_audio, _ = sf.read(io.BytesIO(wav_data))
-            transription = transcribe_byte(raw_audio)
+            file = os.path.join("./", datetime.now().strftime("savewav_%Y-%m-%d_%H-%M-%S_%f.wav"))
+            vad_audio.write_wav(file, wav_data)
+            transription = transcribe(file, language="th-TH")
+            os.remove(file)
+
             if len(transription) < 1:
                 continue
 
             socketio.emit("notification:message", transription)
-            socketio.emit("wav2vec:message", transription)
+            socketio.emit("googlespeech:message", transription)
             wav_data = bytearray()

@@ -7,6 +7,11 @@ from .. import socketio
 def example():
   return jsonify("Example response from Flask! Learn more in /app.py & /src/components/App.js")
 
+@main.route("/testhooks", methods = ['GET', 'POST', 'DELETE'])
+def testHook():
+  print("got message from hook testing")
+  return jsonify("Yeah!! I got message.")
+
 @main.route("/wav2vec")
 def run_wav2vec():
   inference.running()

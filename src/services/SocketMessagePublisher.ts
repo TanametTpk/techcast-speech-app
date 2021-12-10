@@ -24,12 +24,14 @@ export default class SocketMessagePublisher implements ILiveChatPublisher {
     });
     
     this.client.emit(`${this.serviceName}:start`);
+    
   };
 
   public stop = (): void => {
     if (!this.client) return;
     this.client.removeAllListeners(`${this.serviceName}:message`);
     this.client.emit(`${this.serviceName}:stop`);
+    
     this.subscribers = []
   };
 

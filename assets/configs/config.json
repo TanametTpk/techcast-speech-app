@@ -22,19 +22,19 @@
 		"comment_rate": "one_per_two_seconds"
 	},
 	"wav2vec": {
-		"allow": true,
+		"allow": false,
 		"processor": "cpu"
 	},
 	"googlespeech": {
-		"allow": false
+		"allow": true
 	},
 	"timewraping": {
 		"allow": false
 	},
 	"webhooks": {
-		"allow": false,
+		"allow": true,
 		"urls": [
-			"http://localhost:5000/webhooks"
+			"http://localhost:3001/testhooks"
 		]
 	}
 }

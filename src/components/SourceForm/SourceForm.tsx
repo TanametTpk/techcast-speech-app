@@ -6,6 +6,7 @@ import DiscordForm from './DiscordForm/DiscordForm';
 import Wav2vecForm from './Wav2vecForm/Wav2vecForm';
 import TwitchForm from './TwitchForm/TwitchForm';
 import WebHookForm from './WebHookForm/WebHookForm';
+import GoogleSpeechForm from './GoogleSpeechForm/GoogleSpeechForm';
 
 export interface Props {
     setSources: (sources: Configs) => void
@@ -18,6 +19,7 @@ const SourcesForm: React.FC<Props> = (props: Props) => {
         TwitchForm,
         DiscordForm,
         Wav2vecForm,
+        GoogleSpeechForm,
         WebHookForm
     ]
 
