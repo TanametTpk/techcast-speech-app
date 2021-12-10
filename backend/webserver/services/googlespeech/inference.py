@@ -10,6 +10,7 @@ from datetime import datetime
 DEFAULT_SAMPLE_RATE = 16000
 SHOULD_STOP = False
 logging.basicConfig(level=20)
+LANGUAGE = "th-TH"
 
 def transcribe(file, language="th-TH"):
     try:
@@ -44,6 +45,17 @@ def write_header(_bytes, _nchannels, _sampwidth, _framerate):
 def stopRunning():
     global SHOULD_STOP
     SHOULD_STOP = True
+
+@socketio.on('googlespeech:prepare')
+def prepare(config):
+    socketio.emit("googlespeech:prepare")
+    socketio.emit("inference:prepare")
+    global LANGUAGE
+    if "googlespeech" in config and "language" in config["googlespeech"]:
+        print(config)
+        LANGUAGE = config["googlespeech"]["language"]
+    socketio.emit("googlespeech:ready")
+    socketio.emit("inference:ready")
 
 @socketio.on('googlespeech:start')
 def running():

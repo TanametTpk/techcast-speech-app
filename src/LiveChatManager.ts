@@ -8,7 +8,7 @@ import WebHookController from './controllers/WebHookController';
 import ICommandPublisher from './services/interfaces/ICommandPublisher';
 import LocalIOPublisher from './services/LocalIOPublisher';
 import RobotJSIOController from './services/RobotJSIOController';
-import LiveChatAdapter from './services/LiveChatAdapter';
+// import LiveChatAdapter from './services/LiveChatAdapter';
 import {
   CommandConfig,
   Configs,
@@ -35,7 +35,7 @@ export default class LiveChatManager {
   // private webServer!: WebServerController;
   private ioController!: RobotJSIOController;
   private macroController!: IMacroPlayer;
-  
+
   private localController!: ICommandSubscriber;
   private chatSubscriber!: ILiveChatSubscriber;
   private webHookSubscriber!: ILiveChatSubscriber;
@@ -137,9 +137,12 @@ export default class LiveChatManager {
   private createPublishers() {
     this.ioPublisher = new LocalIOPublisher();
 
-    this.wav2vecPublisher = new SocketMessagePublisher("wav2vec")
-    this.googleSpeechPublisher = new SocketMessagePublisher("googlespeech")
-    this.teachablePublisher = new IPCPublisher("teachable")
+    this.wav2vecPublisher = new SocketMessagePublisher('wav2vec', this.source);
+    this.googleSpeechPublisher = new SocketMessagePublisher(
+      'googlespeech',
+      this.source
+    );
+    this.teachablePublisher = new IPCPublisher('teachable');
   }
 
   private startAdminController() {
@@ -168,7 +171,6 @@ export default class LiveChatManager {
         this.commandConfig.replaces
       );
     }
-
   }
 
   public close(): void {

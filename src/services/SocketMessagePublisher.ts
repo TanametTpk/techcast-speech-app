@@ -3,14 +3,17 @@ import ILiveChatPublisher from './interfaces/ILiveChatPublisher';
 import ILiveChatSubscriber from './interfaces/ILiveChatSubscriber';
 import { Socket } from 'socket.io-client';
 import SocketManager from './SocketManager';
+import { Configs } from '../utils/loadConfig';
 
 export default class SocketMessagePublisher implements ILiveChatPublisher {
   private client!: Socket;
   private subscribers: ILiveChatSubscriber[] = [];
   private serviceName: string;
+  private configs: Configs;
 
-  public constructor(serviceName: string) {
+  public constructor(serviceName: string, configs: Configs) {
     this.serviceName = serviceName;
+    this.configs = configs;
   }
 
   public start = (): void => {
@@ -22,17 +25,20 @@ export default class SocketMessagePublisher implements ILiveChatPublisher {
       };
       this.publish([chat]);
     });
-    
-    this.client.emit(`${this.serviceName}:start`);
-    
+
+    this.client.on(`${this.serviceName}:ready`, () => {
+      this.client.emit(`${this.serviceName}:start`);
+    });
+
+    this.client.emit(`${this.serviceName}:prepare`, this.configs);
   };
 
   public stop = (): void => {
     if (!this.client) return;
     this.client.removeAllListeners(`${this.serviceName}:message`);
     this.client.emit(`${this.serviceName}:stop`);
-    
-    this.subscribers = []
+
+    this.subscribers = [];
   };
 
   public register = (subscriber: ILiveChatSubscriber): void => {

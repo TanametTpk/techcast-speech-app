@@ -13,19 +13,28 @@ import pathlib
 
 fileLocation = pathlib.Path(__file__).parent.resolve()
 
-processor = Wav2Vec2Processor.from_pretrained("airesearch/wav2vec2-large-xlsr-53-th")
-model = Wav2Vec2ForCTC.from_pretrained("airesearch/wav2vec2-large-xlsr-53-th")
+# DEVICE = "cuda"
+DEVICE = "cpu"
 
-model.to("cuda")
+def loadModel():
+    global processor, model, raw_vocab, vocab_list, vocab_dict, sort_vocab, vocab, language_model, decoder
+    processor = Wav2Vec2Processor.from_pretrained("airesearch/wav2vec2-large-xlsr-53-th")
+    model = Wav2Vec2ForCTC.from_pretrained("airesearch/wav2vec2-large-xlsr-53-th")
 
-raw_vocab = processor.tokenizer.get_vocab()
-vocab_list = list(raw_vocab)
-vocab_dict = processor.tokenizer.get_vocab()
-sort_vocab = sorted((value, key) for (key,value) in vocab_dict.items())
-vocab = [x[1].replace("|", " ") if x[1] not in processor.tokenizer.all_special_tokens else "" for x in sort_vocab]
+    model.to(DEVICE)
 
-language_model = kenlm.Model(os.path.join(fileLocation,'./lm/th_word_lm_4ngram.binary'))
-decoder = build_ctcdecoder(vocab[:-2], language_model, alpha=0.5, beta=2.0, ctc_token_idx=69)
+    raw_vocab = processor.tokenizer.get_vocab()
+    vocab_list = list(raw_vocab)
+    vocab_dict = processor.tokenizer.get_vocab()
+    sort_vocab = sorted((value, key) for (key,value) in vocab_dict.items())
+    vocab = [x[1].replace("|", " ") if x[1] not in processor.tokenizer.all_special_tokens else "" for x in sort_vocab]
+
+    language_model = kenlm.Model(os.path.join(fileLocation,'./lm/th_word_lm_4ngram.binary'))
+    decoder = build_ctcdecoder(vocab[:-2], language_model, alpha=0.5, beta=2.0, ctc_token_idx=69)
+
+def switchDevice(device):
+    global DEVICE
+    DEVICE = device
 
 def word_correction(sentence):
     newText = ""
@@ -37,32 +46,35 @@ def word_correction(sentence):
     return newText
 
 def transcribe(file):
+    global processor, model, raw_vocab, vocab_list, vocab_dict, sort_vocab, vocab, language_model, decoder
     speech, rate = librosa.load(file)
     speech = librosa.resample(speech, rate, 16_000)
     input_values = processor(speech, return_tensors = 'pt', sampling_rate=16_000).input_values
     with torch.no_grad():
-        logits = model(input_values.to("cuda")).logits.cpu().detach().numpy()[0]
+        logits = model(input_values.to(DEVICE)).logits.cpu().detach().numpy()[0]
 
     return decoder.decode(logits, beam_width=500)
 
 def transcribe_byte(wav_byte, sampling_rate = 16_000):
+    global processor, model, raw_vocab, vocab_list, vocab_dict, sort_vocab, vocab, language_model, decoder
     if sampling_rate != 16_000:
         wav_byte = librosa.resample(wav_byte, sampling_rate, 16_000)
 
     input_values = processor(wav_byte, return_tensors = 'pt', sampling_rate=16_000).input_values
 
     with torch.no_grad():
-        logits = model(input_values.to("cuda")).logits.cpu().detach().numpy()[0]
+        logits = model(input_values.to(DEVICE)).logits.cpu().detach().numpy()[0]
 
     return decoder.decode(logits, beam_width=500)
 
 def transcribe_with_timestamp(file):
+    global processor, model, raw_vocab, vocab_list, vocab_dict, sort_vocab, vocab, language_model, decoder
     speech, rate = librosa.load(file)
     sample_rate = 16_000
     speech = librosa.resample(speech, rate, sample_rate)
     inputs = processor(speech, sampling_rate=sample_rate, return_tensors="pt", padding=True)
     with torch.no_grad():
-        logits = model(inputs.input_values.to("cuda")).logits
+        logits = model(inputs.input_values.to(DEVICE)).logits
 
     predicted_ids = torch.argmax(logits, dim=-1)
     # transcription = decoder.decode(logits.cpu().detach().numpy()[0], beam_width=500)

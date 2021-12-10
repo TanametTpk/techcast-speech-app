@@ -12,6 +12,7 @@ const Home = () => {
   const [socket] = useAtom(socketAtom);
   const [isStart, setStart] = useState<boolean>(false);
   const [canStart, setCanStart] = useState<boolean>(true);
+  const [waitInference, setWaitInference] = useState<boolean>(false);
   const [isShowNotify, setNotify] = useState<boolean>(false);
   const [recognizer, setRecognizer] = useState<
     TeachableMachinePublisher | undefined
@@ -30,6 +31,10 @@ const Home = () => {
       setCanStart(true);
     });
 
+    socket.on('inference:ready', () => {
+      setWaitInference(false);
+    });
+
     return () => {
       socket.removeAllListeners('notification:message');
     };
@@ -45,6 +50,7 @@ const Home = () => {
       ipcRenderer.send('livechat:stop');
       shouldTeachable(stopTeachable)
     } else {
+      setWaitInference(true)
       ipcRenderer.send('livechat:start');
       shouldTeachable(startTeachable);
       setCanStart(false);
@@ -64,6 +70,8 @@ const Home = () => {
   };
 
   const canClickStartBtn = (): boolean => {
+    if (waitInference) return false;
+
     if (!isStart) {
       return canStart;
     }
@@ -73,6 +81,7 @@ const Home = () => {
 
   const shouldTeachable = (callback: Function) => {
     if (settings && settings.sources.teachable.allow) callback();
+    setWaitInference(false)
   }
 
   const startTeachable = () => {
@@ -115,7 +124,7 @@ const Home = () => {
           type="button"
           onClick={toggleStart}
           className={canClickStartBtn() ? 'mainBtn' : 'disableBtn'}
-          disabled={!canClickStartBtn()}
+          disabled={!canClickStartBtn() || waitInference}
         >
           {!isStart ? (
             <>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from .asr import transcribe_byte
+from .asr import transcribe_byte, loadModel, switchDevice
 import soundfile as sf
 import io
 import struct
@@ -34,6 +34,16 @@ def write_header(_bytes, _nchannels, _sampwidth, _framerate):
 def stopRunning():
     global SHOULD_STOP
     SHOULD_STOP = True
+
+@socketio.on('wav2vec:prepare')
+def prepare(config):
+    socketio.emit("wav2vec:prepare")
+    socketio.emit("inference:prepare")
+    if "wav2vec" in config and "device" in config["wav2vec"]:
+        switchDevice(config["wav2vec"]["device"])
+    loadModel()
+    socketio.emit("wav2vec:ready")
+    socketio.emit("inference:ready")
 
 @socketio.on('wav2vec:start')
 def running():
