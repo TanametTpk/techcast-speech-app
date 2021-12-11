@@ -85,7 +85,7 @@ def running():
             wav_data = write_header(wav_data, 1, 2, 16_000)
             file = os.path.join("./", datetime.now().strftime("savewav_%Y-%m-%d_%H-%M-%S_%f.wav"))
             vad_audio.write_wav(file, wav_data)
-            transription = transcribe(file, language="th-TH")
+            transription = transcribe(file, language=LANGUAGE)
             os.remove(file)
 
             if len(transription) < 1:

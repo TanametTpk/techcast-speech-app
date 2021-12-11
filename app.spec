@@ -21,7 +21,7 @@ block_cipher = None
 
 
 a = Analysis(['backend\\webserver\\app.py'],
-             pathex=[],
+             pathex=['E:\\anaconda\\envs\\speech-app\\Lib\\site-packages\\torch\\lib'],
              binaries=[],
              datas=datas,
              hiddenimports=['engineio.async_gevent', 'engineio.async_threading', 'engineio.async_eventlet'],

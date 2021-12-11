@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Select, InputNumber, Card, Input } from 'antd';
+import { Select, Card, Input } from 'antd';
 import TagInput from './TagInput';
 import Modal from 'antd/lib/modal';
 import * as Keywords from '../../keywords';
 import { KeywordConfig } from '../../utils/loadConfig';
 import { useAtom } from 'jotai';
 import { socketAtom } from '../../state/socket';
-import { macroAtom } from '../../state/macroStote';
 
 const { Option } = Select;
 
@@ -163,18 +162,6 @@ const CommandForm: React.FC<Props> = ({
                         title="Enter Trigger Words"
                     >
                         <TagInput tagState={tagState} setTagState={setTagState} />
-                    </HeaderInput>
-
-                    <HeaderInput
-                        title="How many chat to make it trigged"
-                    >
-                        <InputNumber
-                            style={{width: '100%'}}
-                            min={0}
-                            defaultValue={0}
-                            value={ratio}
-                            onChange={(value) => setRatio(value as number)}
-                        />
                     </HeaderInput>
                 </div>
             </Modal>

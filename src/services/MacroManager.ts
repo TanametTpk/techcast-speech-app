@@ -65,7 +65,6 @@ export default class MacroManager implements IMacroRecorder, IMacroPlayer {
   }
 
   public async record(marcoName: string) {
-    console.log(this.isRecord, "macro manager")
     if (this.isRecord) return;
     this.socket.emit("macros:record", {name: marcoName})
   }

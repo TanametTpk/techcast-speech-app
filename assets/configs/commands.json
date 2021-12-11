@@ -2,10 +2,9 @@
 	"commands": [
 		{
 			"words": [
-				"วงกลม",
-				"clap"
+				"เลื่อน"
 			],
-			"toCommand": "circleOfDead",
+			"toCommand": "mouse move up",
 			"ratio": 0
 		},
 		{
