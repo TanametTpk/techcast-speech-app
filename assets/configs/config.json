@@ -1,6 +1,6 @@
 {
 	"wav2vec": {
-		"allow": false,
+		"allow": true,
 		"processor": "cpu"
 	},
 	"googlespeech": {

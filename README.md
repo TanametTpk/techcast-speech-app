@@ -1,48 +1,43 @@
-# Introduction
-Speech App is code for control your pc(window only) with live chat on youtube/discord/twitch
+# Speech App คืออิหยังนะ
+Speech App อันนี้คือ โปรแกรมที่เขียนขึ้นสำหรับทำให้ Speech Recognition ควบคุมคอมพิวเตอร์ได้ ด้วยคำสั่งเสียง
 
-# Features
-- get chat from youtube/discord/twitch/facebook live chat and control pc
-- custom setting command
-- record and set input Macro for new command
-- local website UI for easier interaction and monitor (next release)
-
-# บทนำ
-Speech App คือ โปรแกรมควบคุมคอม โดยดึงคำสั่งจาก live chat บน youtube/discord/twitch
+# คำเตือน
+นี้เป็นโปรแกรมใช้ส่วนตัว ไม่ได้มีไว้ใช้เชิงพาณิชย์ และ Techcast ไม่ได้เป็น IT Support ของโปรแกรมนี้ ดังนั้น
+USE AT YOUR OWN RISK นะครับ
 
 # สิ่งที่ทำได้
-- ดึงข้อมูลจาก youtube/discord/twitch/facebook chat มาทำงาน
+- ใช้ Speech Recognition ได้หลายแบบ
+    - Google Speech Api
+    - Wav2vec2 Thai (Model จาก AIResearch)
+    - Teachable Machine
 - แก้ไข/ตั้งรูปแบบคำสั่งเอง
 - บันทึก และ ตั้ง Macro ให้เป็นคำสั่งใหม่
-- มี local Web UI ทำให้ติดต่อ และ สังเกตุการทำงานได้ง่ายขึ้น (ยังไม่เสร็จ)
 
-# How to use
-### When launch software you will see home screen.
-<img src=".erb/img/home-screen.PNG" width="100%" />
+# วิธีใช้
+### หน้าจอจะเป็นแบบนี้
+- ปุ่ม Start ยังกดไม่ได้ เพราะยังไม่ได้ไป เลือก Model
+<img src=".erb/img/speech-app-home-not-setting.PNG" width="100%" />
 
-### First thing you have to do is set source of your channel
-- Youtube setting example
-<img src=".erb/img/youtube-setting.PNG" width="100%" />
+### ให้เข้าไปที่ Settings จะมี Model ให้เลือก 3 อัน
+<img src=".erb/img/speech-app-settings.PNG" width="100%" />
 
-- Twitch setting example
-<img src=".erb/img/twitch-setting.PNG" width="100%" />
+- Wav2vec (รับแค่ภาษาไทย, กิน memory และ VRAM แต่ทำงานค่ดเร็ว)
 
-- Discord setting example
-    - Go to Discord Developer Site
-    - Create Bot!!
-<img src=".erb/img/discord-setting.PNG" width="100%" />
+- Google Speech (ได้ทั้งไทย และ อังกฤษ, ไม่กิน RAM, แต่ทำงานช้า)
 
-- Facebook setting example
-    - Where do i find access_token?
-        - from facebook developer (https://developers.facebook.com/)
-<img src=".erb/img/facebook-setting.PNG" width="100%" />
+- Teachable machine (ใช้ Custom Speech model ง่ายๆจาก Teachable machine)
+    - แล้วจะไปเอา model มาไง
+        - เข้าไปที่ https://teachablemachine.withgoogle.com/
+        - เลือก Audio Project
+        - Train model ให้เรียบร้อย
+        - Upload model
+        - เอา sharable link มาใส่
 
-- Webhook setting example <b>(this is not source but send message to other server)</b>
-<img src=".erb/img/webhook-setting.PNG" width="100%" />
+- Webhook (ส่ง POST http ไปให้ server อื่นได้)
 
 ### Command Setting
-command is action for you computer, words is messages for chat that 100% match to do action (don't forget to save settings)
-<img src=".erb/img/commands.PNG" width="100%" />
+command คือ สิ่งที่จำให้คอมทำงาน, ส่วน words คือคำพูดที่ถ้าพบจะทำงาน (use replace ไว้ใช้สำหรับ ใช้คู่กับ webhooks)
+<img src=".erb/img/speech-app-settings-command.PNG" width="100%" />
 
 ### Macro
 record macro (press f6 or click button)
@@ -64,16 +59,3 @@ options
 
 you can make your macro as action
 <img src=".erb/img/macro-on-create.PNG" width="100%" />
-
-### setting options
-- <b>use replace</b> is replace word to other.
-    - for example. command1 = go, word1 = g and command2 = here, word2 = h
-    - when you get message "g h". it will replace "g h" to "go here"
-    - REMEMBER you have to split it with space. if you send message as "gh", it will do nothing.
-- <b>use only defined</b> is allow only words that is on commands setting
-    - if not use only defined you can full control by message like "press a" to make you pc press a key
-    - but if you don't want someone to prank you then select use only defined
-- <b>use pool</b> is do action when message is reach the limit.
-    - if you set use pool and set it as 3 = action will do when 100% same message is found for 3 times.
-    - you can set it seperately, when create commands.
-    - this is you full when your live have many viewer and chat
