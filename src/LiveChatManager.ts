@@ -152,14 +152,6 @@ export default class LiveChatManager {
 
   private createAdapters() {
     // should we use builder pattern?
-    this.chatSubscriber = new MessageIncludeAdapter(
-      this.chatSubscriber,
-      this.commandConfig.commands
-    );
-    this.webHookSubscriber = new MessageIncludeAdapter(
-      this.webHookSubscriber,
-      this.commandConfig.commands
-    );
 
     if (this.commandConfig.useReplace) {
       this.chatSubscriber = new LiveChatReplaceAdapter(
@@ -169,6 +161,15 @@ export default class LiveChatManager {
       this.webHookSubscriber = new LiveChatReplaceAdapter(
         this.webHookSubscriber,
         this.commandConfig.replaces
+      );
+    } else {
+      this.chatSubscriber = new MessageIncludeAdapter(
+        this.chatSubscriber,
+        this.commandConfig.commands
+      );
+      this.webHookSubscriber = new MessageIncludeAdapter(
+        this.webHookSubscriber,
+        this.commandConfig.commands
       );
     }
   }

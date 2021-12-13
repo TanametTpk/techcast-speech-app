@@ -38,7 +38,9 @@ export default class LocalIOController implements ICommandSubscriber {
     this.macroManager.record(randomName);
   }
 
-  private stopRecordMacro() {}
+  private stopRecordMacro() {
+    this.isRecording = false;
+  }
 
   private reset() {
     this.ioController.reset();

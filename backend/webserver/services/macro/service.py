@@ -11,6 +11,11 @@ from . import winput
 import argparse
 import time
 import zlib
+import pyautogui
+
+pyautogui.MINIMUM_DURATION = 0
+pyautogui.MINIMUM_SLEEP = 0
+pyautogui.PAUSE = 0
 
 RECORD_MOVEMENT = True
 
@@ -22,7 +27,7 @@ SAVE_COMPRESSED = True
 
 IS_LOCKED = False
 
-IS_RELATIVE = False
+IS_RELATIVE = True
 
 # lang
 
@@ -285,8 +290,10 @@ def playMacro(macro):
                 PressKey(key)
 
         elif action_type == winput.WM_MOUSEMOVE:
+            current_mouse_position = getMousePosition()
             desired_position = (int(round(action[2] * screen_res[0],0)), int(round(action[3] * screen_res[1],0))) if IS_RELATIVE else (int(action[2]), int(action[3]))
-            user32.SetCursorPos(*desired_position)
+            # user32.SetCursorPos(*desired_position)
+            MouseEvent(dx=desired_position[0] - current_mouse_position[0], dy=desired_position[1] - current_mouse_position[1])
         else:
             current_mouse_position = getMousePosition()
             relative_position = (int(round(action[2] * screen_res[0],0)) - current_mouse_position[0], int(round(action[3] * screen_res[1],0)) - current_mouse_position[1]) if IS_RELATIVE else (int(action[2]) - current_mouse_position[0], int(action[3]) - current_mouse_position[1])

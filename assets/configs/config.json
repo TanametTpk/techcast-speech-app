@@ -9,7 +9,7 @@
 	},
 	"teachable": {
 		"allow": false,
-		"url": "https://teachablemachine.withgoogle.com/models/PlFP8zt1d/",
+		"url": "",
 		"probabilityThreshold": 0.75,
 		"overlapFactor": 0.5,
 		"actionRatio": 0.8,
