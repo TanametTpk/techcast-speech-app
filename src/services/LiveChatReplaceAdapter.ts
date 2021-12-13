@@ -27,6 +27,6 @@ export default class LiveChatReplaceAdapter extends AbstractLiveChatAdapter {
             replacedChats.push(newChat)
         }
 
-        this.liveChatSubscriber.receivedChat(chats)
+        this.liveChatSubscriber.receivedChat(replacedChats)
     }
 }
