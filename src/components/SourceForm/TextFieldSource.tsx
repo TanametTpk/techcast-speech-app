@@ -30,7 +30,7 @@ const TextFieldSource: React.FC<TextFieldSourceProps> = ({
                 {
                     numberic ? 
                       <InputNumber
-                        min={min || 100}
+                        min={min || undefined}
                         max={max || undefined}
                         defaultValue={defaultNummber || 1000}
                         onChange={onChange}

@@ -1,18 +1,26 @@
 {
-	"commands": [
-		{
-			"words": [
-				"ขวา"
-			],
-			"toCommand": "press a",
-			"ratio": 0
-		}
-	],
-	"replaces": [],
-	"useOnlyDefined": true,
-	"useReplace": false,
-	"usePool": false,
-	"pool": {
-		"defaultRatio": 3
-	}
+  "commands": [
+    {
+      "words": ["_notActive"],
+      "toCommand": "click release",
+      "ratio": 0
+    },
+    {
+      "words": ["michigh"],
+      "toCommand": "press q",
+      "ratio": 0
+    },
+    {
+      "words": ["miclow"],
+      "toCommand": "click hold",
+      "ratio": 0
+    }
+  ],
+  "replaces": [],
+  "useOnlyDefined": true,
+  "useReplace": false,
+  "usePool": false,
+  "pool": {
+    "defaultRatio": 3
+  }
 }

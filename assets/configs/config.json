@@ -1,24 +1,27 @@
 {
-	"wav2vec": {
-		"allow": true,
-		"processor": "cpu"
-	},
-	"googlespeech": {
-		"allow": false,
-		"language": "th-TH"
-	},
-	"teachable": {
-		"allow": false,
-		"url": "",
-		"probabilityThreshold": 0.75,
-		"overlapFactor": 0.5,
-		"actionRatio": 0.8,
-		"ignoreBGclass": true
-	},
-	"webhooks": {
-		"allow": false,
-		"urls": [
-			"http://localhost:3001/testhooks"
-		]
-	}
+  "wav2vec": {
+    "allow": false,
+    "processor": "cpu"
+  },
+  "googlespeech": {
+    "allow": false,
+    "language": "th-TH"
+  },
+  "teachable": {
+    "allow": false,
+    "url": "",
+    "probabilityThreshold": 0.75,
+    "overlapFactor": 0.5,
+    "actionRatio": 0.8,
+    "ignoreBGclass": true
+  },
+  "micstream": {
+    "allow": false,
+    "ratios": [50, 300],
+    "messages": ["miclow", "michigh"]
+  },
+  "webhooks": {
+    "allow": false,
+    "urls": ["http://localhost:5000/webhooks"]
+  }
 }

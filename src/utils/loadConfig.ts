@@ -26,6 +26,11 @@ export interface TeachableConfig extends SourceConfig {
     ignoreBGclass: boolean
 }
 
+export interface MicstreamConfig extends SourceConfig {
+    ratios: number[]
+    messages: string[]
+}
+
 export interface KeywordConfig {
     words: string[]
     toCommand: string
@@ -41,6 +46,7 @@ export interface Configs {
     wav2vec: Wav2vecConfig
     googlespeech: GoogleSpeechConfig
     teachable: TeachableConfig
+    micstream: MicstreamConfig
     webhooks: WebHookConfig
 }
 

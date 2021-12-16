@@ -20,12 +20,13 @@ const Home = () => {
   >(undefined);
   const history = useHistory();
   const [settings, setSettings] = useState<Settings>();
+  const [micStreamLog, setMicStreamLog] = useState<string>("");
 
   useEffect(() => {
     getSetting();
 
     socket.on('notification:message', (chat: Chat) => {
-      notify(`Transcriptions from ${chat.source || "unknow"}`, chat.message);
+      notify(`Transcriptions from ${chat.source || 'unknow'}`, chat.message);
     });
 
     socket.on('inference:stopped', () => {
@@ -36,8 +37,13 @@ const Home = () => {
       setWaitInference(false);
     });
 
+    // socket.on("micstream:message", (payload) => {
+    //   setMicStreamLog(payload.message + ":" + payload.source)
+    // })
+
     return () => {
       socket.removeAllListeners('notification:message');
+      // socket.removeAllListeners("micstream:message")
     };
   }, [isShowNotify]);
 
@@ -48,10 +54,16 @@ const Home = () => {
 
   const isNotHaveSource = () => {
     if (!settings) return true;
-    if (settings.sources.googlespeech.allow || settings.sources.wav2vec.allow || settings.sources.teachable.allow) return false
+    if (
+      settings.sources.googlespeech.allow ||
+      settings.sources.wav2vec.allow ||
+      settings.sources.teachable.allow ||
+      settings.sources.micstream.allow
+    )
+      return false;
 
-    return true
-  }
+    return true;
+  };
 
   const toggleStart = () => {
     if (isStart) {
@@ -122,6 +134,9 @@ const Home = () => {
 
   return (
     <div className="home-container">
+      {/* <p style={{ position: "absolute", top: 12, left: 12, color: 'white' }} className='micstream-log'>
+        {isStart ? micStreamLog : ""}
+      </p> */}
       <div className="header-title">Techcast Speech App</div>
       <Checkbox
         style={{ color: 'white' }}
@@ -134,7 +149,9 @@ const Home = () => {
         <button
           type="button"
           onClick={toggleStart}
-          className={canClickStartBtn() && !isNotHaveSource() ? 'mainBtn' : 'disableBtn'}
+          className={
+            canClickStartBtn() && !isNotHaveSource() ? 'mainBtn' : 'disableBtn'
+          }
           disabled={!canClickStartBtn() || waitInference || isNotHaveSource()}
         >
           {!isStart ? (

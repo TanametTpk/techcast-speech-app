@@ -46,6 +46,7 @@ export default class LiveChatManager {
   private wav2vecPublisher!: ILiveChatPublisher;
   private googleSpeechPublisher!: ILiveChatPublisher;
   private teachablePublisher!: ILiveChatPublisher;
+  private micstreamPublisher!: ILiveChatPublisher;
 
   public constructor(
     sourceConfigPath: string,
@@ -71,12 +72,14 @@ export default class LiveChatManager {
       this.source.wav2vec.allow,
       this.source.googlespeech.allow,
       this.source.teachable.allow,
+      this.source.micstream.allow
     ];
 
     let publishers: ILiveChatPublisher[] = [
       this.wav2vecPublisher,
       this.googleSpeechPublisher,
       this.teachablePublisher,
+      this.micstreamPublisher
     ];
 
     for (let i = 0; i < publishers.length; i++) {
@@ -143,6 +146,7 @@ export default class LiveChatManager {
       this.source
     );
     this.teachablePublisher = new IPCPublisher('teachable');
+    this.micstreamPublisher = new SocketMessagePublisher('micstream', this.source);
   }
 
   private startAdminController() {
@@ -180,12 +184,14 @@ export default class LiveChatManager {
       this.source.wav2vec.allow,
       this.source.googlespeech.allow,
       this.source.teachable.allow,
+      this.source.micstream.allow
     ];
 
     let publishers: ILiveChatPublisher[] = [
       this.wav2vecPublisher,
       this.googleSpeechPublisher,
       this.teachablePublisher,
+      this.micstreamPublisher
     ];
 
     this.ioPublisher.stop();
